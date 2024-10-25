@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <!-- إضافة Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .navbar-brand {
+            font-family: 'Arial', sans-serif;
+            font-size: 2.8rem;
+            font-weight: bold;
+            color: #736AFF !important; /* لون أزرق */
+        }
+
+        body {
+            background-image: url('https://i.postimg.cc/VkqSbG2z/IMG-0897.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        .welcome-section {
+            margin-top: 50px;
+            text-align: center;
+            color: #008080; /* لون النص */
+        }
+
+        .card {
+            margin: 15px; /* مسافة بين البطاقات */
+            border-radius: 15px; /* زوايا دائرية */
+            transition: transform 0.2s; /* تأثير التحويم */
+        }
+
+        .card:hover {
+            transform: scale(1.05); /* تكبير البطاقة عند التحويم */
+        }
+
+        .btn {
+            border-radius: 20px; /* زوايا دائرية للأزرار */
+        }
+
+        .image-preview {
+            max-width: 100%;
+            max-height: 200px; /* الحد الأقصى لارتفاع الصورة */
+            margin-top: 10px; /* مسافة فوق الصورة */
+        }
+
+        .description-preview {
+            color: green; /* لون النص للوصف */
+            margin-top: 10px; /* مسافة فوق الوصف */
+            font-weight: bold; /* جعل النص بارز */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- شريط التنقل -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="home.html">BS💬chat</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="profile.html">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="products.html">Products</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="services.html">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="logout()">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- محتوى الصفحة الرئيسية -->
+    <div class="container">
+        <div class="welcome-section">
+            <h1>WELCOME TO BS💬chat</h1>
+            <p>Explore our stories and images!</p>
+        </div>
+
+        <!-- قسم نشر الصورة -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <h3>Publish an Image</h3>
+                <input type="file" id="imageInput" accept="image/*" class="form-control">
+                <textarea id="imageDescription" placeholder="Enter a description..." class="form-control my-2"></textarea>
+                <button class="btn btn-success" onclick="uploadImage()">Upload Image</button>
+                <img id="imagePreview" class="image-preview" style="display: none;">
+                <p id="descriptionPreview" class="description-preview" style="display: none;"></p> <!-- عنصر لعرض الوصف -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // دالة تسجيل الخروج
+        function logout() {
+            localStorage.clear();
+            alert('You have been logged out.');
+            window.location.href = 'index.html';
+        }
+
+        // دالة لتحميل الصورة وعرضها
+        function uploadImage() {
+            const imageInput = document.getElementById('imageInput');
+            const imagePreview = document.getElementById('imagePreview');
+            const description = document.getElementById('imageDescription').value;
+            const descriptionPreview = document.getElementById('descriptionPreview');
+
+            if (imageInput.files && imageInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                    descriptionPreview.innerText = description; // تعيين النص لوصف الصورة
+                    descriptionPreview.style.display = 'block'; // إظهار الوصف
+                    alert("Image uploaded: " + description); // يمكنك استبدال هذا بتنفيذ آخر بعد رفع الصورة
+                };
+                reader.readAsDataURL(imageInput.files[0]);
+            } else {
+                alert("Please select an image to upload.");
+            }
+        }
+    </script>
+
+    <!-- إضافة Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('https://i.postimg.cc/CMNSMjby/IMG-0886.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            text-align: center;
+        }
+        input {
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Create a New Account</h1>
+        <form id="registerForm">
+            <input type="text" id="username" placeholder="Enter your username" required>
+            <input type="email" id="email" placeholder="Enter your email" required>
+            <input type="password" id="password" placeholder="Enter your password" required>
+            <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+            <button type="submit">Register</button>
+        </form>
+        <p id="message"></p>
+    </div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // منع إرسال النموذج
+
+            // جلب القيم من الحقول
+            var username = document.getElementById('username').value;
+            var email = document.getElementById('email').value;
+            var password = document.getElementById('password').value;
+            var confirmPassword = document.getElementById('confirmPassword').value;
+
+            // التحقق من صحة البيانات
+            if (username === "" || email === "" || password === "" || confirmPassword === "") {
+                document.getElementById('message').textContent = "Please fill in all fields!";
+                document.getElementById('message').style.color = "red";
+            } else if (password !== confirmPassword) {
+                document.getElementById('message').textContent = "Passwords do not match!";
+                document.getElementById('message').style.color = "red";
+            } else {
+                // تخزين بيانات المستخدم في Local Storage
+                localStorage.setItem('username', username);
+                localStorage.setItem('email', email);
+                localStorage.setItem('password', password);
+
+                document.getElementById('message').textContent = "Account created successfully!";
+                document.getElementById('message').style.color = "green";
+
+                // إعادة تعيين النموذج بعد نجاح التسجيل
+                document.getElementById('registerForm').reset();
+
+                // الانتقال إلى الصفحة الرئيسية
+                setTimeout(function() {
+                    window.location.href = 'home.html'; // تحويل المستخدم إلى الصفحة الرئيسية بعد 2 ثانية
+                }, 2000);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Details</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .comment {
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .comment img {
+            width: 40px; /* حجم الصورة الصغيرة للمستخدم */
+            height: 40px;
+            border-radius: 50%; /* لجعل الصورة دائرية */
+            margin-right: 10px; /* مسافة بين الصورة والتعليق */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 id="postTitle"></h1>
+        <img id="postImage" class="img-fluid" alt="Post Image" style="max-width: 100%; height: auto;"/>
+        <p id="postDescription"></p>
+        
+        <!-- زر العودة إلى الصفحة الرئيسية -->
+        <a href="home.html" class="btn btn-secondary mb-3">Back to Home</a>
+
+        <div>
+            <input type="text" id="commentInput" placeholder="Leave a comment..." class="form-control my-2">
+            <button class="btn btn-secondary" onclick="saveComment()">Comment</button>
+        </div>
+        <div id="commentsList"></div>
+    </div>
+
+    <script>
+        // دالة لتحميل تفاصيل المنشور
+        window.onload = function() {
+            var postId = new URLSearchParams(window.location.search).get('id');
+            document.getElementById("postTitle").textContent = "Service " + postId;
+            document.getElementById("postDescription").textContent = "Description of service " + postId; // يمكنك تخصيص الوصف لكل منشور
+            document.getElementById("postImage").src = "https://i.postimg.cc/CMNSMjby/IMG-0886.jpg"; // يمكنك تخصيص الصورة لكل منشور
+            
+            displayComments(postId);
+        };
+
+        function saveComment() {
+            var commentInput = document.getElementById("commentInput").value;
+            var postId = new URLSearchParams(window.location.search).get('id');
+            if (commentInput) {
+                var comments = JSON.parse(localStorage.getItem("comments_" + postId)) || [];
+                comments.push(commentInput);
+                localStorage.setItem("comments_" + postId, JSON.stringify(comments));
+                document.getElementById("commentInput").value = '';
+                displayComments(postId);
+            }
+        }
+
+        function displayComments(postId) {
+            var comments = JSON.parse(localStorage.getItem("comments_" + postId)) || [];
+            var commentsList = document.getElementById("commentsList");
+            commentsList.innerHTML = '';
+            comments.forEach(function(comment) {
+                var commentElement = document.createElement("div");
+                commentElement.className = "comment alert alert-secondary";
+                
+                // إضافة صورة المستخدم بجانب التعليق
+                var userImage = document.createElement("img");
+                userImage.src = "https://via.placeholder.com/40"; // صورة المستخدم (يمكن تغييرها)
+                
+                commentElement.appendChild(userImage);
+                commentElement.appendChild(document.createTextNode(comment));
+                commentsList.appendChild(commentElement);
+            });
+        }
+    </script>
+</body>
+</html>
